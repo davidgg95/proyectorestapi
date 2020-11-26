@@ -16,14 +16,14 @@ exports.db = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 class DataBase {
     constructor() {
-        this._cadenaConexion = 'mongodb+srv://david:david@cluster0.bzm7u.mongodb.net/proyectoFutbol?retryWrites=true&w=majority';
+        this._cadenaConexion = 'mongodb://localhost/futbol';
         this.conectarBD = () => __awaiter(this, void 0, void 0, function* () {
             const promise = new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 yield mongoose_1.default.connect(this._cadenaConexion, {
                     useNewUrlParser: true,
                     useUnifiedTopology: true,
                     useCreateIndex: true,
-                    useFindAndModify: false // para usar findOneAndDelete y findAndModify
+                    useFindAndModify: true // para usar findOneAndDelete y findAndModify
                 })
                     .then(() => resolve(`Conectado a ${this._cadenaConexion}`))
                     .catch((error) => reject(`Error conectando a ${this._cadenaConexion}: ${error}`));

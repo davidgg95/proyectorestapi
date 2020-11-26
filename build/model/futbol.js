@@ -3,11 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Futbols = exports.Futbol = void 0;
 const mongoose_1 = require("mongoose");
 class Futbol {
-    constructor(_nombre, _longitud, _ancho, _estadio) {
+    constructor(_nombre, _estadio, _longitud) {
         this._nombre = _nombre;
-        this._longitud = _longitud;
-        this._ancho = _ancho;
         this._estadio = _estadio;
+        this._longitud = _longitud;
     }
     get nombre() {
         return this._nombre;
@@ -23,7 +22,7 @@ class Futbol {
     }
     set ancho(_ancho) {
         if (_ancho <= 0) {
-            throw "Altura incorrecta, debe ser > 0";
+            throw "Ancho incorrecto, debe ser > 0";
         }
         this._ancho = _ancho;
     }
@@ -50,14 +49,8 @@ const futbolSchema = new mongoose_1.Schema({
         unique: true
     },
     _estadio: String,
-    _longitud: {
-        type: Number,
-        max: 200
-    },
-    _ancho: {
-        type: Number,
-        min: 5
-    }
+    _longitud: Number,
+    _ancho: Number
 });
 // La colección de la BD: vehiculos (Plural siempre)
 exports.Futbols = mongoose_1.model('futbol', futbolSchema);

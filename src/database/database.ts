@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 class DataBase {
 
-    private _cadenaConexion: string = 'mongodb+srv://david:david@cluster0.bzm7u.mongodb.net/proyectoFutbol?retryWrites=true&w=majority'
+    private _cadenaConexion: string = 'mongodb://localhost/futbol'
 
     constructor(){
 
@@ -17,7 +17,7 @@ class DataBase {
                 useNewUrlParser: true, 
                 useUnifiedTopology: true, 
                 useCreateIndex: true,   // Para que cree el índice único asociado al campo unique
-                useFindAndModify: false  // para usar findOneAndDelete y findAndModify
+                useFindAndModify: true  // para usar findOneAndDelete y findAndModify
             })
             .then( () => resolve(`Conectado a ${this._cadenaConexion}`) )
             .catch( (error) => reject(`Error conectando a ${this._cadenaConexion}: ${error}`) )     

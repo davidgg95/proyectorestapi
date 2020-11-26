@@ -14,7 +14,7 @@ class IdentificacionRoutes {
     private getId = async (req: Request, res: Response) =>{
         const { password } = req.params
         const { user } = req.params
-        setBD(true, user, password) // true BD Local; false BD Atlas
+        setBD(false, user, password) // true BD Local; false BD Atlas
         await db.conectarBD()
         .then( async (mensaje) => {
             console.log(mensaje)
@@ -34,7 +34,7 @@ class IdentificacionRoutes {
 
 const setBD = async (local: boolean, userAtlas: string, passAtlas: string) => {
     const bdLocal = 'futbol'
-    const conexionLocal = `mongodb://locadlhost/${bdLocal}`
+    const conexionLocal = `mongodb://localhost/${bdLocal}`
     if (local) {
         db.cadenaConexion = conexionLocal
     }else{

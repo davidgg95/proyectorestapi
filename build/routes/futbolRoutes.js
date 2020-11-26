@@ -37,7 +37,7 @@ class FutbolRoutes {
             console.log(nombre);
             const dSchema = {
                 _nombre: nombre,
-                _estadio: parseInt(estadio),
+                _estadio: estadio,
                 _longitud: parseInt(longitud),
                 _ancho: parseInt(ancho)
             };
@@ -62,7 +62,7 @@ class FutbolRoutes {
             yield database_1.db.conectarBD();
             const dSchema = {
                 _nombre: nombre,
-                _estadio: parseInt(estadio),
+                _estadio: estadio,
                 _longitud: parseInt(longitud),
                 _ancho: parseInt(ancho)
             };
@@ -80,38 +80,6 @@ class FutbolRoutes {
             yield database_1.db.desconectarBD();
         });
         this.getArea = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            let futbol;
-            let sup = 0;
-            const { nombre } = req.params;
-            yield database_1.db.conectarBD()
-                .then((mensaje) => __awaiter(this, void 0, void 0, function* () {
-                console.log(mensaje);
-                yield futbol_1.Futbols.findOne({ _nombre: nombre }, (error, doc) => {
-                    if (error)
-                        console.log(error);
-                    else {
-                        if (doc == null) {
-                            console.log('No existe');
-                            res.json({});
-                        }
-                        else {
-                            console.log('Existe: ' + doc);
-                            futbol =
-                                new futbol_1.Futbol(doc._nombre, doc._estadio, doc._longitud, doc._ancho);
-                            futbol.ancho = doc._ancho;
-                            sup = futbol.area();
-                            res.json({ "nombre": nombre, "area": sup });
-                        }
-                    }
-                });
-            }))
-                .catch((mensaje) => {
-                res.send(mensaje);
-                console.log(mensaje);
-            });
-            database_1.db.desconectarBD();
-        });
-        this.getAreav2 = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { nombre } = req.params;
             yield database_1.db.conectarBD()
                 .then((mensaje) => __awaiter(this, void 0, void 0, function* () {
@@ -122,7 +90,7 @@ class FutbolRoutes {
                     res.json({});
                 }
                 else {
-                    const futbol = new futbol_1.Futbol(query._nombre, query._estadio, query._longitud, query._ancho);
+                    const futbol = new futbol_1.Futbol(query._nombre, query._estadio, query._longitud);
                     futbol.ancho = query._ancho;
                     console.log(futbol);
                     res.json({ "nombre": futbol.nombre, "area": futbol.area() });
@@ -153,32 +121,11 @@ class FutbolRoutes {
             });
             database_1.db.desconectarBD();
         });
-        this.getAreas = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            let arrayT = new Array();
-            yield database_1.db.conectarBD();
-            let tmpFutbol;
-            let dFutbol;
-            const query = yield futbol_1.Futbols.find({});
-            for (dFutbol of query) {
-                tmpFutbol =
-                    new futbol_1.Futbol(dFutbol._nombre, dFutbol._longitud, dFutbol._estadio, dFutbol._ancho);
-                tmpFutbol.ancho = dFutbol._ancho;
-                const doc = {
-                    nombre: dFutbol._nombre,
-                    area: tmpFutbol.area()
-                };
-                arrayT.push(doc);
-                console.log(`Triángulo ${tmpFutbol.nombre} Área: ${tmpFutbol.area()}`);
-            }
-            console.log(arrayT);
-            res.json(arrayT);
-            yield database_1.db.desconectarBD();
-        });
         this.actualiza = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { nombre } = req.params;
             const { estadio, longitud, ancho } = req.body;
             yield database_1.db.conectarBD();
-            const doc = yield futbol_1.Futbols.findOneAndUpdate({ _nombre: nombre }, {
+            yield futbol_1.Futbols.findOneAndUpdate({ _nombre: nombre }, {
                 _nombre: nombre,
                 _estadio: estadio,
                 _longitud: longitud,
@@ -207,9 +154,7 @@ class FutbolRoutes {
         this._router.get('/nuevoG/:nombre&:estadio&:longitud&:ancho', this.nuevoFutbolGet);
         this._router.post('/nuevoP', this.nuevoFutbolPost);
         this._router.get('/area/:nombre', this.getArea);
-        this._router.get('/areav2/:nombre', this.getAreav2);
         this._router.get('/borrar/:nombre', this.getDelete);
-        this._router.get('/areas', this.getAreas);
         this._router.post('/actualiza/:nombre', this.actualiza);
     }
 }

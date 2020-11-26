@@ -4,14 +4,13 @@ export class Futbol{
     private _nombre: string
     private _estadio: string
     private _longitud: number
-    private _ancho: number
+    private "_ancho": number
 
-    constructor(_nombre: string, _longitud : number, _ancho: number, _estadio: string
+    constructor(_nombre: string, _estadio: string, _longitud: number
         ){
         this._nombre = _nombre
-        this._longitud = _longitud
-        this._ancho = _ancho
         this._estadio = _estadio
+        this._longitud = _longitud
     }
     get nombre(){
         return this._nombre
@@ -31,7 +30,7 @@ export class Futbol{
 
     set ancho(_ancho: number){
         if (_ancho <= 0){
-            throw "Altura incorrecta, debe ser > 0"
+            throw "Ancho incorrecto, debe ser > 0"
         }
         this._ancho = _ancho
     }
@@ -57,26 +56,20 @@ export class Futbol{
 
 export type fFutbol = {
     _nombre: string,
-    _estadio: string
+    _estadio: string,
     _longitud: number,
     _ancho: number
 }
 
 // Definimos el Schema
 const futbolSchema = new Schema({
-    _nombre: {
+    _nombre:  {
         type: String,
         unique: true 
     },
     _estadio: String,
-    _longitud: {
-        type: Number,
-        max: 200
-    },
-    _ancho: {
-        type: Number,
-        min: 5
-    }
+    _longitud: Number,
+    _ancho: Number
 })
 
 // La colección de la BD: vehiculos (Plural siempre)

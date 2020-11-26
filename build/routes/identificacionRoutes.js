@@ -17,7 +17,7 @@ class IdentificacionRoutes {
         this.getId = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { password } = req.params;
             const { user } = req.params;
-            setBD(true, user, password); // true BD Local; false BD Atlas
+            setBD(false, user, password); // true BD Local; false BD Atlas
             yield database_1.db.conectarBD()
                 .then((mensaje) => __awaiter(this, void 0, void 0, function* () {
                 console.log(mensaje);
@@ -40,7 +40,7 @@ class IdentificacionRoutes {
 }
 const setBD = (local, userAtlas, passAtlas) => __awaiter(void 0, void 0, void 0, function* () {
     const bdLocal = 'futbol';
-    const conexionLocal = `mongodb://locadlhost/${bdLocal}`;
+    const conexionLocal = `mongodb://localhost/${bdLocal}`;
     if (local) {
         database_1.db.cadenaConexion = conexionLocal;
     }
