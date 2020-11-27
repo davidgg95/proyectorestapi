@@ -31,8 +31,6 @@ class FutbolRoutes {
 
     private nuevoFutbolPost = async (req: Request, res: Response) => {
         console.log(req.body)
-        // Observar la diferencia entre req.body (para POST) 
-        // y req.params (para GET con los parámetros en la URL
         const { nombre, estadio, longitud, ancho } = req.body
 
         console.log(nombre)
@@ -55,7 +53,6 @@ class FutbolRoutes {
             console.log('Error: '+ err)
             res.send('Error: '+ err)
         }) 
-        // concatenando con cadena muestra sólo el mensaje
         await db.desconectarBD()
     }     
 
@@ -80,7 +77,6 @@ class FutbolRoutes {
             console.log('Error: '+ err)
             res.send('Error: '+ err)
         }) 
-        // concatenando con cadena muestra sólo el mensaje
         await db.desconectarBD()
     }  
     private getArea = async (req: Request, res: Response) => {
@@ -141,7 +137,7 @@ class FutbolRoutes {
                 },
                 {
                     new: true,
-                    runValidators: true // para que se ejecuten las validaciones del Schema
+                    runValidators: true 
                 }  
             )
             .then((docu) => {
@@ -153,7 +149,7 @@ class FutbolRoutes {
                 console.log('Error: '+err)
                 res.json({error: 'Error: '+err })
             }
-            ) // concatenando con cadena muestra mensaje
+            ) 
         db.desconectarBD()
     }
 

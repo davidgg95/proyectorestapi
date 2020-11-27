@@ -31,8 +31,6 @@ class FutbolRoutes {
         });
         this.nuevoFutbolPost = (req, res) => __awaiter(this, void 0, void 0, function* () {
             console.log(req.body);
-            // Observar la diferencia entre req.body (para POST) 
-            // y req.params (para GET con los parámetros en la URL
             const { nombre, estadio, longitud, ancho } = req.body;
             console.log(nombre);
             const dSchema = {
@@ -53,7 +51,6 @@ class FutbolRoutes {
                 console.log('Error: ' + err);
                 res.send('Error: ' + err);
             });
-            // concatenando con cadena muestra sólo el mensaje
             yield database_1.db.desconectarBD();
         });
         this.nuevoFutbolGet = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -76,7 +73,6 @@ class FutbolRoutes {
                 console.log('Error: ' + err);
                 res.send('Error: ' + err);
             });
-            // concatenando con cadena muestra sólo el mensaje
             yield database_1.db.desconectarBD();
         });
         this.getArea = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -132,7 +128,7 @@ class FutbolRoutes {
                 _ancho: ancho
             }, {
                 new: true,
-                runValidators: true // para que se ejecuten las validaciones del Schema
+                runValidators: true
             })
                 .then((docu) => {
                 console.log('Modificado Correctamente: ' + docu);
@@ -141,7 +137,7 @@ class FutbolRoutes {
                 .catch((err) => {
                 console.log('Error: ' + err);
                 res.json({ error: 'Error: ' + err });
-            }); // concatenando con cadena muestra mensaje
+            });
             database_1.db.desconectarBD();
         });
         this._router = express_1.Router();
