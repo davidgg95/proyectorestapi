@@ -98,6 +98,29 @@ class FutbolRoutes {
             });
             database_1.db.desconectarBD();
         });
+        this.perimetro = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { nombre } = req.params;
+            yield database_1.db.conectarBD()
+                .then((mensaje) => __awaiter(this, void 0, void 0, function* () {
+                console.log(mensaje);
+                const query = yield futbol_1.Futbols.findOne({ _nombre: nombre });
+                if (query == null) {
+                    console.log(query);
+                    res.json({});
+                }
+                else {
+                    const futbol = new futbol_1.Futbol(query._nombre, query._estadio, query._longitud);
+                    futbol.ancho = query._ancho;
+                    console.log(futbol);
+                    res.json({ "nombre": futbol.nombre, "perimetro": futbol.perimetro() });
+                }
+            }))
+                .catch((mensaje) => {
+                res.send(mensaje);
+                console.log(mensaje);
+            });
+            database_1.db.desconectarBD();
+        });
         this.getDelete = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { nombre } = req.params;
             yield database_1.db.conectarBD();
@@ -106,11 +129,11 @@ class FutbolRoutes {
                     console.log(err);
                 else {
                     if (doc == null) {
-                        console.log(`No encontrado`);
+                        //console.log(`No encontrado`)
                         res.send(`No encontrado`);
                     }
                     else {
-                        console.log('Borrado correcto: ' + doc);
+                        //console.log('Borrado correcto: '+ doc)
                         res.send('Borrado correcto: ' + doc);
                     }
                 }
@@ -150,6 +173,7 @@ class FutbolRoutes {
         this._router.get('/nuevoG/:nombre&:estadio&:longitud&:ancho', this.nuevoFutbolGet);
         this._router.post('/nuevoP', this.nuevoFutbolPost);
         this._router.get('/area/:nombre', this.getArea);
+        this._router.post('/perimetro/:nombre', this.perimetro);
         this._router.get('/borrar/:nombre', this.getDelete);
         this._router.post('/actualiza/:nombre', this.actualiza);
     }

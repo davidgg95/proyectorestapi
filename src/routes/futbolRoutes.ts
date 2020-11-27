@@ -104,6 +104,30 @@ class FutbolRoutes {
         db.desconectarBD()
     }
 
+    private perimetro = async (req: Request, res: Response) => {
+        const { nombre } = req.params
+        await db.conectarBD()
+        .then( async (mensaje) => {
+            console.log(mensaje)
+            const query: any = await Futbols.findOne({_nombre: nombre})
+            if (query == null){
+                console.log(query)
+                res.json({})
+            }else{
+                const futbol = new Futbol(query._nombre, query._estadio, 
+                    query._longitud)
+                futbol.ancho = query._ancho  
+                console.log(futbol)
+                res.json({"nombre": futbol.nombre, "perimetro": futbol.perimetro()})
+            }
+        })
+        .catch((mensaje) => {
+            res.send(mensaje)
+            console.log(mensaje)
+        })
+        db.desconectarBD()
+    }
+
     private getDelete = async (req: Request, res: Response) => {
         const { nombre } = req.params
         await db.conectarBD()
@@ -113,10 +137,10 @@ class FutbolRoutes {
                 if(err) console.log(err)
                 else{
                     if (doc == null) {
-                        console.log(`No encontrado`)
+                        //console.log(`No encontrado`)
                         res.send(`No encontrado`)
                     }else {
-                        console.log('Borrado correcto: '+ doc)
+                        //console.log('Borrado correcto: '+ doc)
                         res.send('Borrado correcto: '+ doc)
                     }
                 }
@@ -158,6 +182,7 @@ class FutbolRoutes {
         this._router.get('/nuevoG/:nombre&:estadio&:longitud&:ancho', this.nuevoFutbolGet)
         this._router.post('/nuevoP', this.nuevoFutbolPost)
         this._router.get('/area/:nombre', this.getArea)
+        this._router.post('/perimetro/:nombre', this.perimetro)
         this._router.get('/borrar/:nombre', this.getDelete)
         this._router.post('/actualiza/:nombre', this.actualiza)
     }
